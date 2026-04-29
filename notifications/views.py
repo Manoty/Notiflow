@@ -2,6 +2,7 @@ import logging
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .services.dispatcher import NotificationDispatcher
 
 from .models import Notification
 from .serializers import SendNotificationSerializer, NotificationSerializer
@@ -10,11 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class SendNotificationView(APIView):
-    """
-    POST /notifications/send
-    Accepts a notification payload, persists it, and enqueues delivery.
-    Returns 202 immediately — delivery happens asynchronously.
-    """
 
     def post(self, request):
         serializer = SendNotificationSerializer(data=request.data)
@@ -31,8 +27,9 @@ class SendNotificationView(APIView):
             f"channel={notification.channel} | app={notification.app_id}"
         )
 
-        # Dispatch to background — implemented in Phase 7
-        # dispatch_notification(notification.id)
+        # Direct dispatch for now — Phase 7 moves this to background
+        dispatcher = NotificationDispatcher()
+        success = dispatcher.dispatch(notification)
 
         return Response(
             {
@@ -40,12 +37,11 @@ class SendNotificationView(APIView):
                 'message': 'Notification accepted and queued for delivery.',
                 'notification_id': str(notification.id),
                 'channel': notification.channel,
-                'status': notification.status,
+                'status': notification.status,  # will reflect 'sent' or 'failed'
+                'delivered': success,
             },
             status=status.HTTP_202_ACCEPTED,
         )
-
-
 class NotificationListView(APIView):
     """
     GET /notifications/
