@@ -31,6 +31,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'notifications.middleware.APIKeyMiddleware',    
+    'notifications.middleware.RateLimitMiddleware',    
+    'notifications.middleware.RequestLoggingMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -38,7 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'notifications.middleware.RequestLoggingMiddleware',  # Phase 11
+    'notifications.middleware.RequestLoggingMiddleware', 
 ]
 
 ROOT_URLCONF    = 'notiflow_backend.urls'
