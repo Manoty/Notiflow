@@ -3,6 +3,7 @@ from django.utils import timezone
 from ..models import Notification, NotificationLog
 from .email_service import EmailService
 from .sms_service import SMSService
+from .inapp_service import InAppService
 
 logger = logging.getLogger(__name__)
 
