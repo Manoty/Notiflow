@@ -349,3 +349,32 @@ class RetryNotificationView(APIView):
             },
             status=status.HTTP_202_ACCEPTED,
         )    
+
+class FailedNotificationsView(APIView):
+    """
+    GET /notifications/failed/
+
+    Returns all failed notifications that are still eligible for retry,
+    grouped by channel. Useful for an ops dashboard.
+    """
+
+    def get(self, request):
+        app_id = request.query_params.get('app_id')
+
+        filters = {'status': Notification.Status.FAILED}
+        if app_id:
+            filters['app_id'] = app_id
+
+        failed = Notification.objects.filter(**filters).prefetch_related('logs')
+
+        retryable     = [n for n in failed if n.can_retry]
+        non_retryable = [n for n in failed if not n.can_retry]
+
+        return Response(
+            {
+                'total_failed':     failed.count(),
+                'retryable':        NotificationSerializer(retryable, many=True).data,
+                'non_retryable':    NotificationSerializer(non_retryable, many=True).data,
+            },
+            status=status.HTTP_200_OK,
+        )        
