@@ -1,6 +1,9 @@
 import time
 import uuid
 import logging
+from django.http import JsonResponse
+from django.conf import settings
+
 
 logger = logging.getLogger('notifications.requests')
 
@@ -55,3 +58,81 @@ class RequestLoggingMiddleware:
         if forwarded:
             return forwarded.split(',')[0].strip()
         return request.META.get('REMOTE_ADDR', '')
+    
+    
+class APIKeyMiddleware:
+    """
+    Validates X-API-Key header on all /notifications/ endpoints.
+    Resolves the key to an app_id and attaches it to request.app_id.
+
+    Exemptions:
+        /health/        — monitoring tools don't carry API keys
+        /admin/         — uses Django's own session auth
+        GET /notifications/  — read-only listing, relaxed for dashboard
+
+    On success:  request.app_id is set, request proceeds
+    On missing:  401 Unauthorized
+    On invalid:  403 Forbidden
+    """
+
+    EXEMPT_PATHS = ('/health/', '/admin/')
+    EXEMPT_METHODS_PATHS = (
+        ('GET', '/notifications/'),
+        ('GET', '/notifications/inbox/'),
+        ('GET', '/notifications/unread-count/'),
+        ('GET', '/notifications/queue-stats/'),
+        ('GET', '/notifications/failed/'),
+    )
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self._keys: dict = {}
+
+    def __call__(self, request):
+        # Reload keys each request so .env changes don't need a restart
+        self._keys = getattr(settings, 'NOTIFLOW_API_KEYS', {})
+
+        if self._is_exempt(request):
+            request.app_id = None
+            return self.get_response(request)
+
+        api_key = (
+            request.META.get('HTTP_X_API_KEY')
+            or request.GET.get('api_key')    # fallback for curl convenience
+        )
+
+        if not api_key:
+            return JsonResponse(
+                {
+                    'success': False,
+                    'error':   'Missing API key. Provide X-API-Key header.',
+                    'code':    'missing_api_key',
+                },
+                status=401,
+            )
+
+        app_id = self._keys.get(api_key)
+        if not app_id:
+            logger.warning(
+                'Invalid API key attempt',
+                extra={'path': request.path, 'key_prefix': api_key[:8] + '…'},
+            )
+            return JsonResponse(
+                {
+                    'success': False,
+                    'error':   'Invalid API key.',
+                    'code':    'invalid_api_key',
+                },
+                status=403,
+            )
+
+        request.app_id = app_id
+        return self.get_response(request)
+
+    def _is_exempt(self, request) -> bool:
+        if any(request.path.startswith(p) for p in self.EXEMPT_PATHS):
+            return True
+        for method, path in self.EXEMPT_METHODS_PATHS:
+            if request.method == method and request.path.startswith(path):
+                return True
+        return False    
