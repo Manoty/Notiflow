@@ -20,7 +20,7 @@ class NotificationDispatcher:
         self.services = {
             Notification.Channel.EMAIL:  EmailService(),
             Notification.Channel.SMS:   SMSService(),
-            # Notification.Channel.IN_APP: InAppService(),  ← Phase 6
+            Notification.Channel.IN_APP: InAppService(), 
         }
 
     def dispatch(self, notification: Notification) -> bool:

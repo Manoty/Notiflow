@@ -1,3 +1,8 @@
 [2026-04-30 02:57:14] INFO notifications.views: Notification created: e9efab77-004c-4623-b330-b129872058ce | channel=email | app=tixora
 [2026-04-30 02:57:19] INFO notifications.services.email_service: Email sent successfully | notification=e9efab77-004c-4623-b330-b129872058ce
 [2026-04-30 02:57:19] INFO notifications.services.dispatcher: Notification e9efab77-004c-4623-b330-b129872058ce marked SENT
+[2026-04-30 10:25:55] INFO notifications.views: Notification created: 99822ba3-08d0-41be-a490-3862da1a6028 | channel=in_app | app=tixora
+[2026-04-30 10:25:55] INFO notifications.tasks: [Queue] Enqueued notification_id=99822ba3-08d0-41be-a490-3862da1a6028 with delay=0s
+[2026-04-30 10:26:25] INFO notifications.views: Notification created: dba185a0-fbb6-4b7a-9b83-a98a2417b819 | channel=in_app | app=tixora
+[2026-04-30 10:26:25] INFO notifications.tasks: [Queue] Enqueued notification_id=dba185a0-fbb6-4b7a-9b83-a98a2417b819 with delay=0s
+[2026-04-30 10:32:32] INFO notifications.views: Marked 1 notifications as read for user=user_123 app=tixora
