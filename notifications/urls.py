@@ -16,4 +16,5 @@ urlpatterns = [
     
     path('queue-stats/', views.QueueStatsView.as_view(), name='queue-stats',  name='queue-stats'),
     path('<uuid:notification_id>/retry/', views.RetryNotificationView.as_view(), name='notification-retry'),
+    path('failed/', views.FailedNotificationsView.as_view(), name='notification-failed'),
 ]
