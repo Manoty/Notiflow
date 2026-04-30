@@ -2,7 +2,7 @@ import logging
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .services.dispatcher import NotificationDispatcher
+from .tasks import enqueue_notification
 
 from django.utils import timezone
 
@@ -32,18 +32,22 @@ class SendNotificationView(APIView):
             f"channel={notification.channel} | app={notification.app_id}"
         )
 
-        # Direct dispatch for now — Phase 7 moves this to background
-        dispatcher = NotificationDispatcher()
-        success = dispatcher.dispatch(notification)
+        # Honour scheduled_at if provided, otherwise run immediately
+        delay = 0
+        if notification.scheduled_at:
+            from django.utils import timezone
+            delta = notification.scheduled_at - timezone.now()
+            delay = max(0, int(delta.total_seconds()))
+
+        enqueue_notification(notification.id, delay_seconds=delay)
 
         return Response(
             {
-                'success': True,
-                'message': 'Notification accepted and queued for delivery.',
+                'success':         True,
+                'message':         'Notification accepted and queued for delivery.',
                 'notification_id': str(notification.id),
-                'channel': notification.channel,
-                'status': notification.status,  # will reflect 'sent' or 'failed'
-                'delivered': success,
+                'channel':         notification.channel,
+                'status':          notification.status,  # 'pending' until worker runs
             },
             status=status.HTTP_202_ACCEPTED,
         )
