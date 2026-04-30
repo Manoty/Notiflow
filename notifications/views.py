@@ -7,6 +7,9 @@ from .services.dispatcher import NotificationDispatcher
 from .models import Notification
 from .serializers import SendNotificationSerializer, NotificationSerializer
 
+from django.db.models import Count, Q
+from rest_framework.pagination import PageNumberPagination
+
 logger = logging.getLogger(__name__)
 
 
@@ -124,3 +127,142 @@ class MarkAsReadView(APIView):
             {'success': True, 'message': 'Notification marked as read.'},
             status=status.HTTP_200_OK,
         )
+        
+class InboxPagination(PageNumberPagination):
+    """
+    Paginate inbox results so the frontend doesn't
+    receive thousands of notifications in one response.
+    """
+    page_size            = 20
+    page_size_query_param = 'page_size'
+    max_page_size        = 100
+
+
+class InboxView(APIView):
+    """
+    GET /notifications/inbox/?user_id=123&app_id=tixora
+
+    Returns paginated in-app notifications for a specific user.
+    Ordered newest-first (model Meta already handles this).
+    Supports optional ?unread_only=true filter.
+    """
+
+    def get(self, request):
+        user_id = request.query_params.get('user_id')
+        app_id  = request.query_params.get('app_id')
+
+        if not user_id:
+            return Response(
+                {'success': False, 'error': 'user_id query parameter is required.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        queryset = Notification.objects.filter(
+            channel = Notification.Channel.IN_APP,
+            user_id = user_id,
+        )
+
+        if app_id:
+            queryset = queryset.filter(app_id=app_id)
+
+        # Optional: only return unread
+        unread_only = request.query_params.get('unread_only', '').lower() == 'true'
+        if unread_only:
+            queryset = queryset.exclude(status=Notification.Status.READ)
+
+        paginator   = InboxPagination()
+        page        = paginator.paginate_queryset(queryset, request)
+        serializer  = NotificationSerializer(page, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
+
+
+class UnreadCountView(APIView):
+    """
+    GET /notifications/unread-count/?user_id=123&app_id=tixora
+
+    Lightweight endpoint — returns only the unread count.
+    The frontend polls this every N seconds to update the
+    notification bell badge without fetching full payloads.
+    """
+
+    def get(self, request):
+        user_id = request.query_params.get('user_id')
+        app_id  = request.query_params.get('app_id')
+
+        if not user_id:
+            return Response(
+                {'success': False, 'error': 'user_id query parameter is required.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        filters = {
+            'channel': Notification.Channel.IN_APP,
+            'user_id': user_id,
+        }
+        if app_id:
+            filters['app_id'] = app_id
+
+        unread_count = Notification.objects.filter(
+            **filters
+        ).exclude(
+            status=Notification.Status.READ
+        ).count()
+
+        return Response(
+            {
+                'user_id':      user_id,
+                'app_id':       app_id or 'all',
+                'unread_count': unread_count,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class MarkAllReadView(APIView):
+    """
+    POST /notifications/mark-all-read/
+
+    Body: { "user_id": "123", "app_id": "tixora" }
+
+    Bulk-marks all unread in-app notifications as read.
+    Uses queryset update() — one SQL query regardless of count.
+    """
+
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        app_id  = request.data.get('app_id')
+
+        if not user_id:
+            return Response(
+                {'success': False, 'error': 'user_id is required.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        filters = {
+            'channel': Notification.Channel.IN_APP,
+            'user_id': user_id,
+        }
+        if app_id:
+            filters['app_id'] = app_id
+
+        updated = Notification.objects.filter(
+            **filters
+        ).exclude(
+            status=Notification.Status.READ
+        ).update(
+            status     = Notification.Status.READ,
+            updated_at = __import__('django.utils.timezone', fromlist=['timezone']).timezone.now(),
+        )
+
+        logger.info(f"Marked {updated} notifications as read for user={user_id} app={app_id}")
+
+        return Response(
+            {
+                'success':       True,
+                'marked_read':   updated,
+                'user_id':       user_id,
+                'app_id':        app_id or 'all',
+            },
+            status=status.HTTP_200_OK,
+        )        
