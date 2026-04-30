@@ -2,6 +2,7 @@ import logging
 from django.utils import timezone
 from ..models import Notification, NotificationLog
 from .email_service import EmailService
+from .sms_service import SMSService
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class NotificationDispatcher:
     def __init__(self):
         self.services = {
             Notification.Channel.EMAIL:  EmailService(),
-            # Notification.Channel.SMS:    SMSService(),    ← Phase 5
+            Notification.Channel.SMS:   SMSService(),
             # Notification.Channel.IN_APP: InAppService(),  ← Phase 6
         }
 
