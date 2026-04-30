@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .services.dispatcher import NotificationDispatcher
 
+from django.utils import timezone
+
 from .models import Notification
 from .serializers import SendNotificationSerializer, NotificationSerializer
 
@@ -252,7 +254,7 @@ class MarkAllReadView(APIView):
             status=Notification.Status.READ
         ).update(
             status     = Notification.Status.READ,
-            updated_at = __import__('django.utils.timezone', fromlist=['timezone']).timezone.now(),
+            updated_at = timezone.now(),
         )
 
         logger.info(f"Marked {updated} notifications as read for user={user_id} app={app_id}")
