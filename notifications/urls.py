@@ -13,4 +13,6 @@ urlpatterns = [
     path('inbox/',                         views.InboxView.as_view(),             name='notification-inbox'),
     path('unread-count/',                  views.UnreadCountView.as_view(),       name='notification-unread-count'),
     path('mark-all-read/',                 views.MarkAllReadView.as_view(),       name='notification-mark-all-read'),
+    
+    path('queue-stats/', views.QueueStatsView.as_view(), name='queue-stats',  name='queue-stats'),
 ]
