@@ -166,3 +166,9 @@ SMS_SENDER_ID  = os.getenv('SMS_SENDER_ID', 'NOTIFLOW')
 # Africa's Talking (for Phase 9 live swap)
 AT_USERNAME = os.getenv('AT_USERNAME', '')
 AT_API_KEY  = os.getenv('AT_API_KEY', '')
+
+# django-background-tasks
+BACKGROUND_TASK_RUN_ASYNC = False   # Tasks run in the worker process, not inline
+MAX_ATTEMPTS = 3                    # How many times a task retries on exception
+MAX_RUN_TIME = 60                   # Seconds before a running task is considered stuck
+BACKGROUND_TASK_ASYNC_THREADS = 1  # Keep at 1 for SQLite safety; fine for PostgreSQL too
