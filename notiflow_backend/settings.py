@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'background_task',   # async job runner
     'notifications',     # our app
 ]
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -172,3 +174,9 @@ BACKGROUND_TASK_RUN_ASYNC = False   # Tasks run in the worker process, not inlin
 MAX_ATTEMPTS = 3                    # How many times a task retries on exception
 MAX_RUN_TIME = 60                   # Seconds before a running task is considered stuck
 BACKGROUND_TASK_ASYNC_THREADS = 1  # Keep at 1 for SQLite safety; fine for PostgreSQL too
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
