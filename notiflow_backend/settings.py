@@ -158,3 +158,11 @@ LOGGING = {
         },
     },
 }
+
+# SMS config
+SMS_PROVIDER   = os.getenv('SMS_PROVIDER', 'simulated')
+SMS_SENDER_ID  = os.getenv('SMS_SENDER_ID', 'NOTIFLOW')
+
+# Africa's Talking (for Phase 9 live swap)
+AT_USERNAME = os.getenv('AT_USERNAME', '')
+AT_API_KEY  = os.getenv('AT_API_KEY', '')

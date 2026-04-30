@@ -1,0 +1,3 @@
+[2026-04-30 02:57:14] INFO notifications.views: Notification created: e9efab77-004c-4623-b330-b129872058ce | channel=email | app=tixora
+[2026-04-30 02:57:19] INFO notifications.services.email_service: Email sent successfully | notification=e9efab77-004c-4623-b330-b129872058ce
+[2026-04-30 02:57:19] INFO notifications.services.dispatcher: Notification e9efab77-004c-4623-b330-b129872058ce marked SENT
