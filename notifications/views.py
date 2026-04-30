@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .tasks import enqueue_notification
 from .tasks import get_queue_stats
+from .services.retry_manager import RetryManager
 
 from django.utils import timezone
 
@@ -282,4 +283,69 @@ class QueueStatsView(APIView):
 
     def get(self, request):
         stats = get_queue_stats()
-        return Response(stats, status=status.HTTP_200_OK)        
+        return Response(stats, status=status.HTTP_200_OK)       
+    
+class RetryNotificationView(APIView):
+    """
+    POST /notifications/<id>/retry/
+
+    Manually triggers a retry for a failed notification.
+    Useful after fixing a config issue (e.g. wrong SMTP password).
+    Only works on notifications in FAILED status.
+    """
+
+    def post(self, request, notification_id):
+        try:
+            notification = Notification.objects.get(id=notification_id)
+        except Notification.DoesNotExist:
+            return Response(
+                {'success': False, 'error': 'Notification not found.'},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if notification.status != Notification.Status.FAILED:
+            return Response(
+                {
+                    'success': False,
+                    'error':   f"Cannot retry a notification with status '{notification.status}'. "
+                               "Only FAILED notifications can be retried.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not notification.can_retry:
+            # Allow override via request body: {"force": true}
+            force = request.data.get('force', False)
+            if not force:
+                return Response(
+                    {
+                        'success': False,
+                        'error':   (
+                            f"Max retries reached "
+                            f"({notification.retry_count}/{notification.max_retries}). "
+                            "Pass {\"force\": true} to override."
+                        ),
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            # Force retry: reset counter to allow one more attempt
+            notification.retry_count = 0
+            notification.save(update_fields=['retry_count', 'updated_at'])
+            logger.warning(f"[Retry] Forced retry for {notification_id} by API request.")
+
+        # Reset to pending so the task doesn't skip it
+        notification.status = Notification.Status.PENDING
+        notification.save(update_fields=['status', 'updated_at'])
+
+        enqueue_notification(notification.id, delay_seconds=0)
+
+        return Response(
+            {
+                'success':         True,
+                'message':         'Notification re-queued for immediate delivery.',
+                'notification_id': str(notification.id),
+                'retry_count':     notification.retry_count,
+                'max_retries':     notification.max_retries,
+            },
+            status=status.HTTP_202_ACCEPTED,
+        )    
