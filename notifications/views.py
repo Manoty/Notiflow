@@ -6,6 +6,11 @@ from .tasks import enqueue_notification
 from .tasks import get_queue_stats
 from .services.retry_manager import RetryManager
 
+import django
+from django.db import connection
+from django.conf import settings
+from django.utils import timezone
+
 from django.utils import timezone
 
 from .models import Notification
@@ -377,4 +382,108 @@ class FailedNotificationsView(APIView):
                 'non_retryable':    NotificationSerializer(non_retryable, many=True).data,
             },
             status=status.HTTP_200_OK,
+        )        
+        
+        
+class HealthView(APIView):
+    """
+    GET /health/
+
+    Returns system health status. Called by:
+        - Load balancers (to decide routing)
+        - Uptime monitors (PagerDuty, UptimeRobot)
+        - Deployment scripts (wait until healthy before switching traffic)
+
+    Returns 200 if all checks pass, 503 if any critical check fails.
+    Non-critical checks (email, SMS) return 'degraded' but don't
+    affect the top-level status — the system can still process
+    notifications even if SMTP is misconfigured.
+    """
+
+    authentication_classes = []   # no auth needed for health checks
+    permission_classes     = []
+
+    def get(self, request):
+        checks   = {}
+        critical = True
+
+        # ── Database ──────────────────────────────────────────────────────
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT 1')
+            checks['database'] = {'status': 'ok'}
+        except Exception as e:
+            checks['database'] = {'status': 'error', 'detail': str(e)}
+            critical = False
+
+        # ── Queue ─────────────────────────────────────────────────────────
+        try:
+            from .tasks import get_queue_stats
+            queue_stats = get_queue_stats()
+            overdue     = queue_stats.get('overdue', 0)
+            checks['queue'] = {
+                'status':  'degraded' if overdue > 10 else 'ok',
+                'queued':  queue_stats.get('queued', 0),
+                'overdue': overdue,
+            }
+        except Exception as e:
+            checks['queue'] = {'status': 'error', 'detail': str(e)}
+
+        # ── Email config ──────────────────────────────────────────────────
+        email_user = settings.EMAIL_HOST_USER
+        email_pass = settings.EMAIL_HOST_PASSWORD
+        if email_user and email_pass:
+            checks['email'] = {
+                'status': 'ok',
+                'host':   settings.EMAIL_HOST,
+                'port':   settings.EMAIL_PORT,
+            }
+        else:
+            checks['email'] = {
+                'status': 'degraded',
+                'detail': 'EMAIL_HOST_USER or EMAIL_HOST_PASSWORD not set',
+            }
+
+        # ── SMS config ────────────────────────────────────────────────────
+        sms_provider = settings.SMS_PROVIDER
+        checks['sms'] = {
+            'status':   'ok',
+            'provider': sms_provider,
+            'live':     sms_provider != 'simulated',
+        }
+
+        # ── API keys ──────────────────────────────────────────────────────
+        api_keys = getattr(settings, 'NOTIFLOW_API_KEYS', {})
+        checks['auth'] = {
+            'status':    'ok' if api_keys else 'degraded',
+            'apps_configured': list(api_keys.values()),
+        }
+
+        # ── Notification stats ────────────────────────────────────────────
+        try:
+            from .models import Notification
+            since = timezone.now() - __import__('datetime').timedelta(hours=24)
+            recent = Notification.objects.filter(created_at__gte=since)
+            checks['notifications_24h'] = {
+                'status':  'ok',
+                'total':   recent.count(),
+                'sent':    recent.filter(status='sent').count(),
+                'failed':  recent.filter(status='failed').count(),
+                'pending': recent.filter(status='pending').count(),
+            }
+        except Exception as e:
+            checks['notifications_24h'] = {'status': 'error', 'detail': str(e)}
+
+        overall = 'ok' if critical else 'error'
+
+        return Response(
+            {
+                'status':      overall,
+                'version':     '1.0.0',
+                'environment': settings.ENVIRONMENT,
+                'django':      django.get_version(),
+                'timestamp':   timezone.now().isoformat(),
+                'checks':      checks,
+            },
+            status=200 if critical else 503,
         )        
