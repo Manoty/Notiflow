@@ -15,12 +15,15 @@ Example usage inside Tixora's order service:
 import logging
 from datetime import datetime, timedelta, timezone
 from integrations.notiflow_client import NotiflowClient, NotificationResult
+import os
 
 logger = logging.getLogger(__name__)
 
 # One client instance per app — reuses the HTTP session
-_client = NotiflowClient(app_id='tixora')
-
+_client = NotiflowClient(
+    app_id  = 'tixora',
+    api_key = os.getenv('TIXORA_API_KEY'),
+)
 
 # ── Data shapes (simulating Tixora's models) ──────────────────────────────
 

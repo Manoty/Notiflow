@@ -54,8 +54,8 @@ class NotiflowClient:
         self,
         app_id:   str,
         base_url: str = 'http://127.0.0.1:8000',
-        api_key:  Optional[str] = None,     # reserved for Phase 11 auth
-        timeout:  int = DEFAULT_TIMEOUT,
+        api_key:  Optional[str] = None,     
+        timeout:  int = 10,
     ):
         self.app_id   = app_id
         self.base_url = base_url.rstrip('/')
@@ -66,7 +66,7 @@ class NotiflowClient:
             'X-App-ID':     app_id,          # identify caller in server logs
         })
         if api_key:
-            self.session.headers['Authorization'] = f'Bearer {api_key}'
+            self.session.headers['X-API-Key'] = api_key
 
     # ── Public channel methods ─────────────────────────────────────────────
 
