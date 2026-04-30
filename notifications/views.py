@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .tasks import enqueue_notification
+from .tasks import get_queue_stats
 
 from django.utils import timezone
 
@@ -272,3 +273,13 @@ class MarkAllReadView(APIView):
             },
             status=status.HTTP_200_OK,
         )        
+        
+class QueueStatsView(APIView):
+    """
+    GET /notifications/queue-stats/
+    Returns a snapshot of the background task queue.
+    """
+
+    def get(self, request):
+        stats = get_queue_stats()
+        return Response(stats, status=status.HTTP_200_OK)        
