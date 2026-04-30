@@ -6,3 +6,122 @@
 [2026-04-30 10:26:25] INFO notifications.views: Notification created: dba185a0-fbb6-4b7a-9b83-a98a2417b819 | channel=in_app | app=tixora
 [2026-04-30 10:26:25] INFO notifications.tasks: [Queue] Enqueued notification_id=dba185a0-fbb6-4b7a-9b83-a98a2417b819 with delay=0s
 [2026-04-30 10:32:32] INFO notifications.views: Marked 1 notifications as read for user=user_123 app=tixora
+[2026-04-30 10:36:18] INFO notifications.tasks: [Task] Starting dispatch for notification_id=99822ba3-08d0-41be-a490-3862da1a6028
+[2026-04-30 10:36:18] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:36:18] WARNING notifications.services.dispatcher: Notification 99822ba3-08d0-41be-a490-3862da1a6028 marked FAILED (attempt 0/3)
+[2026-04-30 10:36:19] WARNING notifications.tasks: [Task] Dispatch failed for 99822ba3-08d0-41be-a490-3862da1a6028. Error: No service registered for channel 'in_app'.
+[2026-04-30 10:36:19] DEBUG notifications.services.failure_classifier: Classified as PERMANENT (matched 'no\s+service\s+registered'): No service registered for channel 'in_app'.
+[2026-04-30 10:36:19] WARNING notifications.services.retry_manager: [Retry] Permanent failure for 99822ba3-08d0-41be-a490-3862da1a6028. Error: No service registered for channel 'in_app'.. No retry scheduled.
+[2026-04-30 10:36:19] WARNING notifications.tasks: [Task] No further retries for 99822ba3-08d0-41be-a490-3862da1a6028. Final status: failed
+[2026-04-30 10:36:19] INFO notifications.tasks: [Task] Starting dispatch for notification_id=dba185a0-fbb6-4b7a-9b83-a98a2417b819
+[2026-04-30 10:36:19] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:36:19] WARNING notifications.services.dispatcher: Notification dba185a0-fbb6-4b7a-9b83-a98a2417b819 marked FAILED (attempt 0/3)
+[2026-04-30 10:36:19] WARNING notifications.tasks: [Task] Dispatch failed for dba185a0-fbb6-4b7a-9b83-a98a2417b819. Error: No service registered for channel 'in_app'.
+[2026-04-30 10:36:19] DEBUG notifications.services.failure_classifier: Classified as PERMANENT (matched 'no\s+service\s+registered'): No service registered for channel 'in_app'.
+[2026-04-30 10:36:19] WARNING notifications.services.retry_manager: [Retry] Permanent failure for dba185a0-fbb6-4b7a-9b83-a98a2417b819. Error: No service registered for channel 'in_app'.. No retry scheduled.
+[2026-04-30 10:36:19] WARNING notifications.tasks: [Task] No further retries for dba185a0-fbb6-4b7a-9b83-a98a2417b819. Final status: failed
+[2026-04-30 10:52:45] INFO notifications.views: Notification created: a1cab79e-7188-4024-a06d-cce73cdde079 | channel=in_app | app=tixora
+[2026-04-30 10:52:45] INFO notifications.tasks: [Queue] Enqueued notification_id=a1cab79e-7188-4024-a06d-cce73cdde079 with delay=0s
+[2026-04-30 10:52:48] INFO notifications.tasks: [Task] Starting dispatch for notification_id=a1cab79e-7188-4024-a06d-cce73cdde079
+[2026-04-30 10:52:48] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:52:48] INFO notifications.services.inapp_service: In-app notification stored | id=a1cab79e-7188-4024-a06d-cce73cdde079 | user=user_123 | app=tixora
+[2026-04-30 10:52:48] INFO notifications.services.dispatcher: Notification a1cab79e-7188-4024-a06d-cce73cdde079 marked SENT
+[2026-04-30 10:52:48] INFO notifications.tasks: [Task] Dispatch succeeded for a1cab79e-7188-4024-a06d-cce73cdde079
+[2026-04-30 10:56:18] INFO notifications.views: Notification created: 11754676-9a5c-4b19-ad5a-be34d4bd4a05 | channel=in_app | app=tixora
+[2026-04-30 10:56:18] INFO notifications.tasks: [Queue] Enqueued notification_id=11754676-9a5c-4b19-ad5a-be34d4bd4a05 with delay=0s
+[2026-04-30 10:56:24] INFO notifications.tasks: [Task] Starting dispatch for notification_id=11754676-9a5c-4b19-ad5a-be34d4bd4a05
+[2026-04-30 10:56:24] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:56:24] INFO notifications.services.inapp_service: In-app notification stored | id=11754676-9a5c-4b19-ad5a-be34d4bd4a05 | user=user_123 | app=tixora
+[2026-04-30 10:56:24] INFO notifications.services.dispatcher: Notification 11754676-9a5c-4b19-ad5a-be34d4bd4a05 marked SENT
+[2026-04-30 10:56:24] INFO notifications.tasks: [Task] Dispatch succeeded for 11754676-9a5c-4b19-ad5a-be34d4bd4a05
+[2026-04-30 10:57:08] INFO notifications.views: Notification created: 42f62b49-be00-487b-8ab4-e6616f486463 | channel=in_app | app=tixora
+[2026-04-30 10:57:08] INFO notifications.tasks: [Queue] Enqueued notification_id=42f62b49-be00-487b-8ab4-e6616f486463 with delay=0s
+[2026-04-30 10:57:10] INFO notifications.tasks: [Task] Starting dispatch for notification_id=42f62b49-be00-487b-8ab4-e6616f486463
+[2026-04-30 10:57:10] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:57:10] INFO notifications.services.inapp_service: In-app notification stored | id=42f62b49-be00-487b-8ab4-e6616f486463 | user=user_123 | app=tixora
+[2026-04-30 10:57:10] INFO notifications.services.dispatcher: Notification 42f62b49-be00-487b-8ab4-e6616f486463 marked SENT
+[2026-04-30 10:57:10] INFO notifications.tasks: [Task] Dispatch succeeded for 42f62b49-be00-487b-8ab4-e6616f486463
+[2026-04-30 10:58:23] INFO notifications.views: Notification created: 54fe8045-b4a2-43c6-959d-792cd862a93c | channel=in_app | app=tixora
+[2026-04-30 10:58:23] INFO notifications.tasks: [Queue] Enqueued notification_id=54fe8045-b4a2-43c6-959d-792cd862a93c with delay=0s
+[2026-04-30 10:58:26] INFO notifications.tasks: [Task] Starting dispatch for notification_id=54fe8045-b4a2-43c6-959d-792cd862a93c
+[2026-04-30 10:58:26] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 10:58:26] INFO notifications.services.inapp_service: In-app notification stored | id=54fe8045-b4a2-43c6-959d-792cd862a93c | user=user_123 | app=tixora
+[2026-04-30 10:58:26] INFO notifications.services.dispatcher: Notification 54fe8045-b4a2-43c6-959d-792cd862a93c marked SENT
+[2026-04-30 10:58:26] INFO notifications.tasks: [Task] Dispatch succeeded for 54fe8045-b4a2-43c6-959d-792cd862a93c
+[2026-04-30 11:01:02] INFO notifications.views: Notification created: 65354eb9-d450-4451-9d0a-ce8ab71d1138 | channel=in_app | app=tixora
+[2026-04-30 11:01:02] INFO notifications.tasks: [Queue] Enqueued notification_id=65354eb9-d450-4451-9d0a-ce8ab71d1138 with delay=0s
+[2026-04-30 11:01:04] INFO notifications.tasks: [Task] Starting dispatch for notification_id=65354eb9-d450-4451-9d0a-ce8ab71d1138
+[2026-04-30 11:01:04] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:01:04] INFO notifications.services.inapp_service: In-app notification stored | id=65354eb9-d450-4451-9d0a-ce8ab71d1138 | user=user_123 | app=tixora
+[2026-04-30 11:01:04] INFO notifications.services.dispatcher: Notification 65354eb9-d450-4451-9d0a-ce8ab71d1138 marked SENT
+[2026-04-30 11:01:04] INFO notifications.tasks: [Task] Dispatch succeeded for 65354eb9-d450-4451-9d0a-ce8ab71d1138
+[2026-04-30 11:05:38] INFO notifications.views: Notification created: d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f | channel=email | app=tixora
+[2026-04-30 11:05:38] INFO notifications.tasks: [Queue] Enqueued notification_id=d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f with delay=0s
+[2026-04-30 11:05:38] INFO notifications.views: Notification created: a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9 | channel=in_app | app=tixora
+[2026-04-30 11:05:38] INFO notifications.tasks: [Queue] Enqueued notification_id=a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9 with delay=0s
+[2026-04-30 11:05:40] INFO notifications.views: Notification created: 9f948ef7-ecc4-42b0-be0d-0284dcd662a1 | channel=sms | app=tixora
+[2026-04-30 11:05:40] INFO notifications.tasks: [Queue] Enqueued notification_id=9f948ef7-ecc4-42b0-be0d-0284dcd662a1 with delay=0s
+[2026-04-30 11:05:40] INFO notifications.views: Notification created: b0a8a6ec-2fbb-451e-b75f-168c21bbd707 | channel=in_app | app=tixora
+[2026-04-30 11:05:40] INFO notifications.tasks: [Queue] Enqueued notification_id=b0a8a6ec-2fbb-451e-b75f-168c21bbd707 with delay=0s
+[2026-04-30 11:05:42] INFO notifications.tasks: [Task] Starting dispatch for notification_id=d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f
+[2026-04-30 11:05:42] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:43] INFO notifications.views: Notification created: 4e08e159-1435-4c79-9669-d3cdea172354 | channel=email | app=tixora
+[2026-04-30 11:05:43] INFO notifications.tasks: [Queue] Enqueued notification_id=4e08e159-1435-4c79-9669-d3cdea172354 with delay=0s
+[2026-04-30 11:05:43] INFO notifications.views: Notification created: d7b1b40c-3465-4a3d-85c2-1c1e6143bd18 | channel=in_app | app=tixora
+[2026-04-30 11:05:43] INFO notifications.tasks: [Queue] Enqueued notification_id=d7b1b40c-3465-4a3d-85c2-1c1e6143bd18 with delay=0s
+[2026-04-30 11:05:43] INFO notifications.views: Notification created: 76f63856-8e1e-4186-bd6e-b786e2d7b539 | channel=email | app=scott
+[2026-04-30 11:05:43] INFO notifications.tasks: [Queue] Enqueued notification_id=76f63856-8e1e-4186-bd6e-b786e2d7b539 with delay=0s
+[2026-04-30 11:05:43] INFO notifications.views: Notification created: 408ee56b-8e21-45dd-b646-6cbf7bc72354 | channel=in_app | app=scott
+[2026-04-30 11:05:43] INFO notifications.tasks: [Queue] Enqueued notification_id=408ee56b-8e21-45dd-b646-6cbf7bc72354 with delay=0s
+[2026-04-30 11:05:45] INFO notifications.views: Notification created: 1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7 | channel=sms | app=scott
+[2026-04-30 11:05:45] INFO notifications.tasks: [Queue] Enqueued notification_id=1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7 with delay=0s
+[2026-04-30 11:05:45] INFO notifications.views: Notification created: d3d2e1c8-305b-4792-888b-c1978a8521ac | channel=in_app | app=scott
+[2026-04-30 11:05:45] INFO notifications.tasks: [Queue] Enqueued notification_id=d3d2e1c8-305b-4792-888b-c1978a8521ac with delay=0s
+[2026-04-30 11:05:46] INFO notifications.services.email_service: Email sent successfully | notification=d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f
+[2026-04-30 11:05:46] INFO notifications.services.dispatcher: Notification d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f marked SENT
+[2026-04-30 11:05:46] INFO notifications.tasks: [Task] Dispatch succeeded for d0cb373d-3bcc-4624-aec5-ae6a4bd59a4f
+[2026-04-30 11:05:46] INFO notifications.tasks: [Task] Starting dispatch for notification_id=a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9
+[2026-04-30 11:05:46] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:46] INFO notifications.services.inapp_service: In-app notification stored | id=a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9 | user=tixora_user_42 | app=tixora
+[2026-04-30 11:05:46] INFO notifications.services.dispatcher: Notification a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9 marked SENT
+[2026-04-30 11:05:46] INFO notifications.tasks: [Task] Dispatch succeeded for a8bdb9d8-a0b9-4e2c-b9b9-8fac494e61b9
+[2026-04-30 11:05:46] INFO notifications.tasks: [Task] Starting dispatch for notification_id=9f948ef7-ecc4-42b0-be0d-0284dcd662a1
+[2026-04-30 11:05:46] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:46] WARNING notifications.services.sms_service: SMS message is 209 chars — will be sent as 2 segments (cost x2). Consider shortening the message.
+[2026-04-30 11:05:46] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated:   To:        +254712345678
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated:   From:      NOTIFLOW
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated:   Message:   Reminder: Nairobi Jazz Night — Vol. 12 is tomorrow: Nairobi Jazz Night — Vol. 12 | Saturday, 10 May 2025 at 7:00 PM | Alliance Française, Nairobi. Gates open 1 hour before the event. Have your ticket QR ready.
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated:   Chars:     209 / 160
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated:   Timestamp: 2026-04-30T08:05:47.158638+00:00
+[2026-04-30 11:05:47] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:47] INFO notifications.services.sms_service: SMS delivered | notification=9f948ef7-ecc4-42b0-be0d-0284dcd662a1 | messageId=SIM-20260430080547-3374 | to=+254712345678
+[2026-04-30 11:05:47] INFO notifications.services.dispatcher: Notification 9f948ef7-ecc4-42b0-be0d-0284dcd662a1 marked SENT
+[2026-04-30 11:05:47] INFO notifications.tasks: [Task] Dispatch succeeded for 9f948ef7-ecc4-42b0-be0d-0284dcd662a1
+[2026-04-30 11:05:47] INFO notifications.tasks: [Task] Starting dispatch for notification_id=b0a8a6ec-2fbb-451e-b75f-168c21bbd707
+[2026-04-30 11:05:47] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:47] INFO notifications.services.inapp_service: In-app notification stored | id=b0a8a6ec-2fbb-451e-b75f-168c21bbd707 | user=tixora_user_42 | app=tixora
+[2026-04-30 11:05:47] INFO notifications.services.dispatcher: Notification b0a8a6ec-2fbb-451e-b75f-168c21bbd707 marked SENT
+[2026-04-30 11:05:47] INFO notifications.tasks: [Task] Dispatch succeeded for b0a8a6ec-2fbb-451e-b75f-168c21bbd707
+[2026-04-30 11:05:47] INFO notifications.tasks: [Task] Starting dispatch for notification_id=4e08e159-1435-4c79-9669-d3cdea172354
+[2026-04-30 11:05:47] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:47] INFO notifications.views: Notification created: 6cec3a99-c0be-4d26-85ba-951300a58dbf | channel=sms | app=scott
+[2026-04-30 11:05:47] INFO notifications.tasks: [Queue] Enqueued notification_id=6cec3a99-c0be-4d26-85ba-951300a58dbf with delay=0s
+[2026-04-30 11:05:47] INFO notifications.views: Notification created: c6d52807-228a-496c-89a5-bb0af96bfca0 | channel=in_app | app=scott
+[2026-04-30 11:05:47] INFO notifications.tasks: [Queue] Enqueued notification_id=c6d52807-228a-496c-89a5-bb0af96bfca0 with delay=0s
+[2026-04-30 11:05:49] INFO notifications.views: Notification created: 42f3c01d-75fd-4ba4-9f1b-daaf3113eae7 | channel=email | app=scott
+[2026-04-30 11:05:49] INFO notifications.tasks: [Queue] Enqueued notification_id=42f3c01d-75fd-4ba4-9f1b-daaf3113eae7 with delay=0s
+[2026-04-30 11:05:49] INFO notifications.views: Notification created: 2951c436-f379-4583-a498-9279916a9ba0 | channel=sms | app=scott
+[2026-04-30 11:05:49] INFO notifications.tasks: [Queue] Enqueued notification_id=2951c436-f379-4583-a498-9279916a9ba0 with delay=0s
+[2026-04-30 11:05:50] INFO notifications.views: Notification created: 14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae | channel=in_app | app=scott
+[2026-04-30 11:05:50] INFO notifications.tasks: [Queue] Enqueued notification_id=14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae with delay=0s
+[2026-04-30 11:05:50] INFO notifications.services.email_service: Email sent successfully | notification=4e08e159-1435-4c79-9669-d3cdea172354
+[2026-04-30 11:05:50] INFO notifications.services.dispatcher: Notification 4e08e159-1435-4c79-9669-d3cdea172354 marked SENT
+[2026-04-30 11:05:50] INFO notifications.tasks: [Task] Dispatch succeeded for 4e08e159-1435-4c79-9669-d3cdea172354
+[2026-04-30 11:05:50] INFO notifications.tasks: [Task] Starting dispatch for notification_id=d7b1b40c-3465-4a3d-85c2-1c1e6143bd18
+[2026-04-30 11:05:50] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:50] INFO notifications.services.inapp_service: In-app notification stored | id=d7b1b40c-3465-4a3d-85c2-1c1e6143bd18 | user=tixora_user_42 | app=tixora
+[2026-04-30 11:05:50] INFO notifications.services.dispatcher: Notification d7b1b40c-3465-4a3d-85c2-1c1e6143bd18 marked SENT
+[2026-04-30 11:05:50] INFO notifications.tasks: [Task] Dispatch succeeded for d7b1b40c-3465-4a3d-85c2-1c1e6143bd18
+[2026-04-30 11:05:50] INFO notifications.tasks: [Task] Starting dispatch for notification_id=76f63856-8e1e-4186-bd6e-b786e2d7b539
+[2026-04-30 11:05:50] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
