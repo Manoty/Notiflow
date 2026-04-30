@@ -34,6 +34,7 @@ class Notification(models.Model):
             models.Index(fields=['user_id', 'app_id']),
             models.Index(fields=['status']),
             models.Index(fields=['channel']),
+            models.Index(fields=['channel', 'user_id', 'status']),
         ]
 
     def __str__(self):
