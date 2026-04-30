@@ -3,6 +3,8 @@ import uuid
 import logging
 from django.http import JsonResponse
 from django.conf import settings
+from collections import defaultdict
+from threading import Lock
 
 
 logger = logging.getLogger('notifications.requests')
@@ -136,3 +138,69 @@ class APIKeyMiddleware:
             if request.method == method and request.path.startswith(path):
                 return True
         return False    
+    
+    
+class RateLimitMiddleware:
+    """
+    Simple in-process sliding window rate limiter.
+    Keyed by API key (or IP for unauthenticated requests).
+    Default: 60 requests per 60-second window.
+
+    Production note: this uses in-process memory, so it resets
+    on restart and doesn't share state across multiple workers.
+    For multi-process deployments, replace the store with Redis:
+        redis_client.incr(key); redis_client.expire(key, 60)
+    The interface here is designed so that swap is straightforward.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self._store: dict[str, list[float]] = defaultdict(list)
+        self._lock  = Lock()
+
+    def __call__(self, request):
+        from django.conf import settings
+        limit  = getattr(settings, 'RATE_LIMIT_PER_MINUTE', 60)
+        window = 60.0
+
+        key = self._get_key(request)
+        now = time.monotonic()
+
+        with self._lock:
+            hits = self._store[key]
+
+            # Evict timestamps outside the window
+            self._store[key] = [t for t in hits if now - t < window]
+
+            if len(self._store[key]) >= limit:
+                retry_after = int(window - (now - self._store[key][0])) + 1
+                logger.warning(
+                    'Rate limit exceeded',
+                    extra={
+                        'key':         key[:16],
+                        'limit':       limit,
+                        'retry_after': retry_after,
+                        'path':        request.path,
+                    }
+                )
+                response = JsonResponse(
+                    {
+                        'success': False,
+                        'error':   f'Rate limit exceeded. Try again in {retry_after}s.',
+                        'code':    'rate_limit_exceeded',
+                        'retry_after_seconds': retry_after,
+                    },
+                    status=429,
+                )
+                response['Retry-After'] = str(retry_after)
+                return response
+
+            self._store[key].append(now)
+
+        return self.get_response(request)
+
+    def _get_key(self, request) -> str:
+        api_key = request.META.get('HTTP_X_API_KEY', '')
+        if api_key:
+            return f'key:{api_key[:16]}'
+        return f'ip:{request.META.get("REMOTE_ADDR", "unknown")}'    
