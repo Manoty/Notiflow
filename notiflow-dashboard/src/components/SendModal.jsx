@@ -118,19 +118,23 @@ export function SendModal({ onClose, onSent }) {
   )
 }
 
-const labelStyle = {
-  display: 'block', fontSize: 11, color: '#94a3b8',
-  textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4,
-}
 const inputStyle = {
-  width: '100%', fontFamily: 'inherit', fontSize: 13,
-  padding: '7px 10px', border: '1px solid #e2e8f0',
-  borderRadius: 8, background: '#f8fafc', color: '#1e293b',
+  width: '100%', fontFamily: 'var(--mono)', fontSize: 12,
+  padding: '7px 10px',
+  border: '1px solid var(--ln2)', borderRadius: 6,
+  background: 'var(--bg0)', color: 'var(--t0)',
   boxSizing: 'border-box',
 }
-const btnStyle = {
-  width: '100%', padding: '10px', fontFamily: 'inherit',
-  fontSize: 13, fontWeight: 500, border: 'none',
-  borderRadius: 8, background: '#1e293b', color: '#fff',
-  cursor: 'pointer',
+
+const labelStyle = {
+  display: 'block', fontSize: 10, color: 'var(--t2)',
+  textTransform: 'uppercase', letterSpacing: '.07em', marginBottom: 5,
 }
+
+const btnStyle = {
+  width: '100%', padding: '9px',
+  fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 500,
+  border: 'none', borderRadius: 6,
+  background: 'var(--acc)', color: '#fff', cursor: 'pointer',
+}
+

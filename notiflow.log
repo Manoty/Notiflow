@@ -125,3 +125,68 @@
 [2026-04-30 11:05:50] INFO notifications.tasks: [Task] Dispatch succeeded for d7b1b40c-3465-4a3d-85c2-1c1e6143bd18
 [2026-04-30 11:05:50] INFO notifications.tasks: [Task] Starting dispatch for notification_id=76f63856-8e1e-4186-bd6e-b786e2d7b539
 [2026-04-30 11:05:50] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] INFO notifications.services.email_service: Email sent successfully | notification=76f63856-8e1e-4186-bd6e-b786e2d7b539
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification 76f63856-8e1e-4186-bd6e-b786e2d7b539 marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for 76f63856-8e1e-4186-bd6e-b786e2d7b539
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=408ee56b-8e21-45dd-b646-6cbf7bc72354
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] INFO notifications.services.inapp_service: In-app notification stored | id=408ee56b-8e21-45dd-b646-6cbf7bc72354 | user=scott_user_17 | app=scott
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification 408ee56b-8e21-45dd-b646-6cbf7bc72354 marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for 408ee56b-8e21-45dd-b646-6cbf7bc72354
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] WARNING notifications.services.sms_service: SMS message is 195 chars — will be sent as 2 segments (cost x2). Consider shortening the message.
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   To:        +254798765432
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   From:      NOTIFLOW
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Message:   Your Package is On the Way: Your delivery (Electronics Package (2kg)) has been picked up by James M. and is on the way to Westlands, Nairobi, Kenya. ETA: Today by 3:00 PM. Tracking: SCT-TRK-44712
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Chars:     195 / 160
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Timestamp: 2026-04-30T08:05:55.371164+00:00
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMS delivered | notification=1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7 | messageId=SIM-20260430080555-1135 | to=+254798765432
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification 1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7 marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for 1f751bce-fac2-4fe4-b3b7-57e7ce8ccae7
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=d3d2e1c8-305b-4792-888b-c1978a8521ac
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] INFO notifications.services.inapp_service: In-app notification stored | id=d3d2e1c8-305b-4792-888b-c1978a8521ac | user=scott_user_17 | app=scott
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification d3d2e1c8-305b-4792-888b-c1978a8521ac marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for d3d2e1c8-305b-4792-888b-c1978a8521ac
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=6cec3a99-c0be-4d26-85ba-951300a58dbf
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   To:        +254798765432
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   From:      NOTIFLOW
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Message:   Delivery Arriving Soon — 2 Stops Away: Your delivery is 2 stops away. Please be available at Westlands, Nairobi, Kenya.
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Chars:     119 / 160
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated:   Timestamp: 2026-04-30T08:05:55.463357+00:00
+[2026-04-30 11:05:55] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMS delivered | notification=6cec3a99-c0be-4d26-85ba-951300a58dbf | messageId=SIM-20260430080555-1865 | to=+254798765432
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification 6cec3a99-c0be-4d26-85ba-951300a58dbf marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for 6cec3a99-c0be-4d26-85ba-951300a58dbf
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=c6d52807-228a-496c-89a5-bb0af96bfca0
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:55] INFO notifications.services.inapp_service: In-app notification stored | id=c6d52807-228a-496c-89a5-bb0af96bfca0 | user=scott_user_17 | app=scott
+[2026-04-30 11:05:55] INFO notifications.services.dispatcher: Notification c6d52807-228a-496c-89a5-bb0af96bfca0 marked SENT
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Dispatch succeeded for c6d52807-228a-496c-89a5-bb0af96bfca0
+[2026-04-30 11:05:55] INFO notifications.tasks: [Task] Starting dispatch for notification_id=42f3c01d-75fd-4ba4-9f1b-daaf3113eae7
+[2026-04-30 11:05:55] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:58] INFO notifications.services.email_service: Email sent successfully | notification=42f3c01d-75fd-4ba4-9f1b-daaf3113eae7
+[2026-04-30 11:05:58] INFO notifications.services.dispatcher: Notification 42f3c01d-75fd-4ba4-9f1b-daaf3113eae7 marked SENT
+[2026-04-30 11:05:58] INFO notifications.tasks: [Task] Dispatch succeeded for 42f3c01d-75fd-4ba4-9f1b-daaf3113eae7
+[2026-04-30 11:05:58] INFO notifications.tasks: [Task] Starting dispatch for notification_id=2951c436-f379-4583-a498-9279916a9ba0
+[2026-04-30 11:05:58] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated:   To:        +254798765432
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated:   From:      NOTIFLOW
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated:   Message:   Delivery Completed: Delivered! Electronics Package (2kg) has arrived at Westlands, Nairobi, Kenya. Ref: SCT-TRK-44712
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated:   Chars:     117 / 160
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated:   Timestamp: 2026-04-30T08:05:58.362635+00:00
+[2026-04-30 11:05:58] INFO notifications.services.sms_providers.simulated: ============================================================
+[2026-04-30 11:05:58] INFO notifications.services.sms_service: SMS delivered | notification=2951c436-f379-4583-a498-9279916a9ba0 | messageId=SIM-20260430080558-2464 | to=+254798765432
+[2026-04-30 11:05:58] INFO notifications.services.dispatcher: Notification 2951c436-f379-4583-a498-9279916a9ba0 marked SENT
+[2026-04-30 11:05:58] INFO notifications.tasks: [Task] Dispatch succeeded for 2951c436-f379-4583-a498-9279916a9ba0
+[2026-04-30 11:05:58] INFO notifications.tasks: [Task] Starting dispatch for notification_id=14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae
+[2026-04-30 11:05:58] INFO notifications.services.sms_service: SMSService initialised with provider: simulated
+[2026-04-30 11:05:58] INFO notifications.services.inapp_service: In-app notification stored | id=14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae | user=scott_user_17 | app=scott
+[2026-04-30 11:05:58] INFO notifications.services.dispatcher: Notification 14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae marked SENT
+[2026-04-30 11:05:58] INFO notifications.tasks: [Task] Dispatch succeeded for 14c400a4-c4e1-421f-ae5f-f5a7d39bb3ae
